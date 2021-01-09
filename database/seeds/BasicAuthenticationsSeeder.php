@@ -37,7 +37,7 @@ class BasicAuthenticationsSeeder extends Seeder{
             ['name' => 'kelolapengguna-pengguna'],
             ['name' => 'kelolapengguna-peran'],
             ['name' => 'kelolapengguna-hakakses'],
-            ['name' => 'kelola-pendaftar-kbih']
+           
         ];
         $builtInRolesAndUsers = [
             'super-admin' => [
@@ -77,16 +77,7 @@ class BasicAuthenticationsSeeder extends Seeder{
                     ],
                 ],
             ],
-            'kbih' => [
-                'name' => 'kbih',
-                'built_in' => 0,
-                'permissions' => [
-                    'kelola-pendaftar-kbih',
-                ],
-                'user' => [
-                    
-                ],
-            ],
+            
         ];
 
         foreach ($builtInPermissions as $permission) {
