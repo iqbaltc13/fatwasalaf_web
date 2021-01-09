@@ -50,7 +50,7 @@ class AutentikasiController extends AccessTokenController{
             'email'         => 'required|string|email',
             'phone'         => 'required|string',
             'password'      => 'required|string|confirmed',
-            'jenis_kelamin' => 'required|in:Pria,Wanita'
+            
         ];
         $validator = Validator::make($requestBody, $rules);
         if ($validator->fails()) {
@@ -165,15 +165,15 @@ class AutentikasiController extends AccessTokenController{
         $user->is_active            = 1;
         $user->save();
         DB::commit();
-        $notifEmail                   =  new stdClass;
-        $notifEmail->view             = 'new_account';
-        $notifEmail->nama_nasabah     = $user->name;
-        $notifEmail->receiver_email   = $user->email;
-        $notifEmail->content          = 'Registrasi Nasabah MyDuma Sukses';
-        $notifEmail->subject          = 'Registrasi Nasabah MyDuma Sukses';
-        $notifEmail->sender_email     = 'noreply@myduma.id';
-        $notifEmail->sender_name      = 'noreply MyDuma';
-        $sendEmail                    = $this->email_helper->sendBeautyMail('new_account',$notifEmail);
+        // $notifEmail                   =  new stdClass;
+        // $notifEmail->view             = 'new_account';
+        // $notifEmail->nama_nasabah     = $user->name;
+        // $notifEmail->receiver_email   = $user->email;
+        // $notifEmail->content          = 'Registrasi Nasabah MyDuma Sukses';
+        // $notifEmail->subject          = 'Registrasi Nasabah MyDuma Sukses';
+        // $notifEmail->sender_email     = 'noreply@myduma.id';
+        // $notifEmail->sender_name      = 'noreply MyDuma';
+        // $sendEmail                    = $this->email_helper->sendBeautyMail('new_account',$notifEmail);
         return $this->success('Berhasil.');
     }
 

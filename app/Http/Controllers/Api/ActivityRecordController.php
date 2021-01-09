@@ -6,12 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\User;
 use Hash;
-use App\Models\Jamaah;
-use App\Models\DaftarHaji;
-use App\Models\DaftarHajiLog;
-use App\Models\PembayaranHaji;
-use App\Models\Kbih;
-use App\Models\SettingNominalHajiMuda;
+
 use Auth;
 use App\Models\ActivityRecord;
 

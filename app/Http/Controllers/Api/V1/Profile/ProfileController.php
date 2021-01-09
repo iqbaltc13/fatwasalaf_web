@@ -6,11 +6,9 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\User;
 use Hash;
-use App\Models\DumaCash;
-use App\Models\DumaPoint;
+
 use Auth;
-use App\Models\Nasabah;
-use App\Helpers\VirtualAccount;
+
 use Mail;
 use Illuminate\Support\Str;
 use App\Models\ActivityRecord;
@@ -27,45 +25,9 @@ class ProfileController extends Controller{
     public function __construct(){
         $this->email_helper   = new EmailHelperController();
     }
-    public function saldo(Request $request){
-        $user                   = User::find(Auth::id());
-        $point_total_in         = DumaPoint::where('user_id',$user->id)->whereNotNull('in')->sum('in');
-        $point_total_out        = DumaPoint::where('user_id',$user->id)->whereNotNull('out')->sum('out');
-        $point_saldo            = $point_total_in - $point_total_out;
-        $info_point             = [
-            'total_in'      => $point_total_in,
-            'total_out'     => $point_total_out,
-            'saldo'         => $point_saldo
-        ];
+   
 
-        $nasabah_ids            = Nasabah::where('user_id',$user->id)->pluck('id');
-        $cash_total_in          = DumaCash::whereIn('nasabah_id',$nasabah_ids)->whereNotNull('in')->sum('in');
-        $cash_total_out         = DumaCash::whereIn('nasabah_id',$nasabah_ids)->whereNotNull('out')->sum('out');
-        $cash_saldo             = $cash_total_in - $cash_total_out;
-        $info_cash              = [
-            'total_in'      => $cash_total_in,
-            'total_out'     => $cash_total_out,
-            'saldo'         => $cash_saldo
-        ];
-        $saldo                  = $point_saldo + $cash_saldo;
-
-        $result                 = [
-            'info_point'    => $info_point,
-            'info_cash'     => $info_cash,
-            'saldo'         => $saldo,
-        ];
-        return $this->success('Berhasil',$result);
-    }
-
-    public function generateNumberId(Request $request){
-        $users  = User::whereNull('number_id')->orWhere('number_id','')->get();
-        foreach($users as $user){
-            $update     = User::find($user->id);
-            $update->number_id  = VirtualAccount::generateMyDumaNumberId();
-            $update->save();
-        }
-        return $this->success(@count($users).' user berhasil digeneratekan number id.');
-    }
+    
 
     public function get(Request $request){
         $user = User::find(Auth::id());

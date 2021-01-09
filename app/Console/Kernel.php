@@ -13,9 +13,7 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        Commands\NotifNasabahBaru::class,
-        Commands\NotifNasabahMenabung::class,
-        Commands\NotifUpdateApp::class,
+       
         Commands\ChangeFullPathToHttpsOnFile::class,
     ];
 
@@ -27,9 +25,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('notif:nasabah_baru')->hourly();
-        $schedule->command('notif:nasabah_menabung')->monthlyOn(3,'12:00');
-        $schedule->command('notif:notif:updateapp')->weeklyOn(1, '8:00');	;
+      
     }
 
     /**

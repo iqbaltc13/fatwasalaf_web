@@ -21,7 +21,7 @@ trait EncapsulatedApiResponder{
     protected function failure($errors = ['Failed.']) {
         return response()->json(array_merge($this->responseFormat, [
             'response_code' => 400,
-            'errors' => is_null($errors) ? $errors : is_array($errors) ? $errors : [$errors],
+            'errors' => (is_null($errors) ? $errors : is_array($errors)) ? $errors : [$errors],
         ]));
     }
 
@@ -46,7 +46,7 @@ trait EncapsulatedApiResponder{
     protected function notFound($errors = ['Not found.']) {
         return response()->json(array_merge($this->responseFormat, [
             'response_code' => 404,
-            'errors' => is_null($errors) ? $errors : is_array($errors) ? $errors : [$errors],
+            'errors' => (is_null($errors) ? $errors : is_array($errors)) ? $errors : [$errors],
         ]));
     }    
 
@@ -54,7 +54,7 @@ trait EncapsulatedApiResponder{
     {
         return response()->json(array_merge($this->responseFormat, [
             'response_code' => 422,
-            'errors' => is_null($errors) ? $errors : is_array($errors) ? $errors : [$errors],
+            'errors' => (is_null($errors) ? $errors : is_array($errors)) ? $errors : [$errors],
         ]));
     }
 
@@ -63,7 +63,7 @@ trait EncapsulatedApiResponder{
         return response()->json(array_merge($this->responseFormat, [
             'response_code' => $responseCode,
             'message' => $message,
-            'errors' => is_null($errors) ? $errors : is_array($errors) ? $errors : [$errors],
+            'errors' => (is_null($errors) ? $errors : is_array($errors)) ? $errors : [$errors],
             'data' => $data,
         ]));
     }
