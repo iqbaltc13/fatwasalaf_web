@@ -22,11 +22,18 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::group(['prefix' => 'blog-mockup', 'namespace' => 'Blog', 'as'=>'blog.mockup.'], function () {
+    Route::get('index', "BlogMockupController@index")->name('index');
+    Route::get('blog', "BlogMockupController@blog")->name('blog');
+    Route::get('post', "BlogMockupController@post")->name('post');
+});
+
+
 Route::group(['middleware' => ['auth'] ], function() {
     Route::group(['prefix' => 'upload'], function () {
         Route::post('file', "Api\V1\UploadFileController@uploadFile")->name('upload_file');
     });
-    Route::group(['prefix' => 'dashboard', 'namespace' => 'Dashboard'], function() {
+    Route::group(['prefix' => 'dashboard', 'namespace' => 'Dashboard','as'=>'dashboard.master.'], function() {
         
         Route::group(['prefix' => 'user-management', 'namespace' => 'User'], function() {
             Route::get('index','UserController@index')->name('dashboard.user.index');
