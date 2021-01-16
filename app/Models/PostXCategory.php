@@ -6,19 +6,26 @@ use Illuminate\Database\Eloquent\Model;
 use App\Http\Controllers\Helpers\WebHelperController;
 use DateTime;
 
-
-class DetailBiayaUmrah extends Model
+class PostXCategory extends Model
 {
     protected $appends = [
         'tanggal_input',
     ];
-    protected $guarded = [];
-    public function icon(){
-        return $this->hasOne('App\Models\File','id','icon_file_id')->select('id','full_path','full_path_thumbnail');
-    }
+    protected $guarded = [
+        
+    ];
+    protected $table = 'posts_x_categories';
+    
+ 
     public function getTanggalInputAttribute(){
         $objWebHelper = new WebHelperController();
         $valDateTime =$objWebHelper->olahTanggalToBaku($this->attributes['created_at']);
         return $valDateTime;
+    }
+    public function post(){
+        return $this->belongsTo('App\Models\Post','post','id');
+    }
+    public function category(){
+        return $this->belongsTo('App\Models\Category','category_id','id');
     }
 }

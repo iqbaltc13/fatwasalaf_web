@@ -6,25 +6,24 @@ use Illuminate\Database\Eloquent\Model;
 use App\Http\Controllers\Helpers\WebHelperController;
 use DateTime;
 
-class InspirasiView extends Model
+class Category extends Model
 {
-    //
-    protected $guarded = [];
-    public function inspirasi()
-    {
-        return $this->belongsTo('App\Models\Inspirasi', 'inspirasi_id', 'id');
-    }
-    public function user()
-    {
-        return $this->belongsTo('App\User', 'user_id', 'id');
-    }
-   
     protected $appends = [
         'tanggal_input',
     ];
+    protected $guarded = [
+        
+    ];
+    protected $table = 'categories';
+    
+ 
     public function getTanggalInputAttribute(){
         $objWebHelper = new WebHelperController();
         $valDateTime =$objWebHelper->olahTanggalToBaku($this->attributes['created_at']);
         return $valDateTime;
+    }
+
+    public function category_x_post() {
+        return $this->hasMany('App\Models\PostXCategory', 'category_id','id');
     }
 }
