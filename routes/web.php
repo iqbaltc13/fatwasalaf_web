@@ -27,6 +27,16 @@ Route::group(['prefix' => 'blog-mockup', 'namespace' => 'Blog', 'as'=>'blog.mock
     Route::get('blog', "BlogMockupController@blog")->name('blog');
     Route::get('post', "BlogMockupController@post")->name('post');
 });
+Route::group([ 'namespace' => 'Blog', 'as'=>'blog.'], function () {
+    Route::get('index', "BlogController@index")->name('index');
+    Route::get('blog', "BlogController@blog")->name('blog');
+    Route::get('post/{id}', "BlogController@detail")->name('post');
+});
+Route::group([ 'prefix' => 'comment','namespace' => 'Blog', 'as'=>'comment.'], function () {
+    Route::get('get-by-post/{postId}', "BlogController@listComment")->name('get-by-post');
+    Route::get('submit/{postId}', "BlogController@submitComment")->name('submit-by-post');
+    
+});
 
 
 Route::group(['middleware' => ['auth'] ], function() {
