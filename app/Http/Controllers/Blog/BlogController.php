@@ -120,8 +120,9 @@ class BlogController extends Controller
 
     }
     public function listCategory(Request $request){
-        $datas = Comment::with([
-            'post',
+        $datas = Category::with([
+            'category_x_post',
+            'category_x_post.post',
         
         ]);
         $datas =$datas->where('post_id',$idPost);

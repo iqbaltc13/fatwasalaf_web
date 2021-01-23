@@ -24,45 +24,186 @@ class PostController extends Controller
 {
     public function __construct()
     {
-        $this->route='dashboard.user.';
-        $this->view='dashboard.user.';
+        $this->route='dashboard.post.';
+        $this->view='dashboard.post.';
     }
     public function index(){
-        $arrReturn=[];
+        $datas = Post::with([
+            'post_x_category',
+            'post_x_category.category',
+            'comment',
+        ])->orderBy('created_at', 'DESC');
+        $datas = $datas->get();
+        $arrReturn=[
+            'arrData' => $datas
+        ];
         return view($this->view.'index',$arrReturn);
     }
     public function data(Request $request){
+        $datas = Post::with([
+            'post_x_category',
+            'post_x_category.category',
+            'comment',
+        ])->orderBy('created_at', 'DESC');
+        $datas = $datas->get();
+        return $this->success('Permintaan berhasil diproses.',$datas);
+    }
+    public function datatable(Request $request){
+        $datas = Post::with([
+            'post_x_category',
+            'post_x_category.category',
+            'comment',
+        ]);
+        $datas       = $datas->orderBy('created_at','DESC');
+
+        return DataTables::of($datas) 
+        ->toJson();
+       
     }
     public function edit($id){
+        $data =  Post::with([
+            'post_x_category',
+            'post_x_category.category',
+            'comment',
+        ])
+        ->where('id',$id)->first();
+        $categories     = Category::with([
+           
+        ]);
+        $categories     = $categories->orderBy('created_at','DESC');
+     
+        
+
+        $arrReturn  = [
+            'data'      => $data,
+            'arrDataCategories'      => $categories,
+            
+        ];
         return view($this->view.'edit',$arrReturn);
     }
     public function update(Request $request,$id){
         $this->validate($request, [
+           
+            'title'    =>'required',
+            'article'  =>'required',
+           
         ]);
+        if(is_null($request->categories)){
+            return redirect()->back()->with('failed', 'Kategori belum diisi');
+        }
+        $arrUpdate=[
+            
+            'title'           =>$request->title,
+            'article'         =>$request->article,
+            
+            'status'          =>1,
+        ];
+        $update = Post::where('id',$id)->update($arrUpdate);
+        foreach ($arrIdCategories as $key => $idCategory) {
+            $getPostXCategory = PostXCategory::with([])
+                                ->where('post_id' , $id)
+                                ->where('category_id', $idCategory)
+                                ->first();
+            if($getPostXCategory){
+                continue;
+            }
+            $arrCreatePostXCategory=[
+                'post_id'    => $id,
+                'category_id'  => $idCategory,
+            ];
+            PostXCategory::create($arrCreatePostXCategory);
+            $arrCreatePostXCategory=[];
+            $getPostXCategory = NULL;
+        }           
         return redirect()->route($this->route.'index')
-        ->with('success', 'Sukses mengedit instansi');
+        ->with('success', 'Sukses mengedit postingan');
     }
     public function create(Request $request){
+        $categories     = Category::with([
+           
+        ]);
+        $categories     = $categories->orderBy('created_at','DESC');
+        $arrReturn  = [
+            'arrDataCategories'      => $categories,
+           
+            
+        ];
         return view($this->view.'create',$arrReturn);
     }
     public function store(Request $request){
         $this->validate($request, [
+           
+            'title'    =>'required',
+            'article'  =>'required',
+           
         ]);
+        if(is_null($request->categories)){
+            return redirect()->back()->with('failed', 'Kategori belum diisi');
+        }
+
+        $arrCreate=[
+            'total_accessed'  =>0,
+            'author_id'       =>Auth::id(),
+            'title'           =>$request->title,
+            'article'         =>$request->article,
+            'total_searched'  =>0,
+            'status'          =>1,
+        ];
+        $create= Post::create($arrCreate);
+        $arrIdCategories=$request->categories;
+        foreach ($arrIdCategories as $key => $idCategory) {
+            $arrCreatePostXCategory=[
+                'post_id'    => $create->id,
+                'category_id'  => $idCategory,
+            ];
+            PostXCategory::create($arrCreatePostXCategory);
+            $arrCreatePostXCategory=[];
+        }                
+        
+       
+
+        
         return redirect()->route($this->route.'index')
-        ->with('success', 'Sukses menambah instansi');
+        ->with('success', 'Sukses menambah postingan');
     }
     public function destroy(Request $request){
+        $data = Post::find($id);
+        if($data){
+            $data->delete();
+        }
         return redirect()->route($this->route.'index')
-        ->with('success', 'Sukses menghapus instansi');
+        ->with('success', 'Sukses menghapus postingan');
     }
     public function destroyJson(Request $request){
-        return response()->json($return);
+        $data = Post::find($id);
+        if($data){
+            $data=$data->delete();
+        }
+        return response()->json($data);
     }
     public function detail(Request $request,$id){
+        $data = Post::with([
+            'post_x_category',
+            'post_x_category.category',
+            'comment',
+        ])
+        ->where('id',$id)->first();
+        $arrReturn  = [
+            'data'      => $data,
+           
+            
+        ];
         return view($this->view.'detail',$arrReturn);
 
     }
     public function detailJson(Request $request,$id){
+        $return = Post::with([
+            'post_x_category',
+            'post_x_category.category',
+            'comment',
+        ])
+        ->where('id',$id)->first();
+    
         return response()->json($return);
     }
 }
