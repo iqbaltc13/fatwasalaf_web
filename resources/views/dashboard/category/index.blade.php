@@ -42,7 +42,7 @@
             <thead>
                 <tr>
                     <th>Id</th>
-                    <th>Nama</th>
+                    <th>Nama Kategori</th>
                    
                     <th>Status Aktif</th>
                     <th>Action</th>
@@ -53,26 +53,7 @@
                 
             </tbody>                
         </table>
-        <div id="upload-form" data-uk-modal>
-            <div class="uk-modal-dialog">
-                <div class="uk-modal-header">
-                    <h2 class="uk-modal-title">Upload Gambar</h2>
-                </div>
-                <div class="uk-modal-body upload-product-image">
-                   <p>Upload Gambar Banner</p>
-                   <input type="hidden" name="gambar-banner" id="product-id">
-                   <input type="file" name="gambar-banner" id="product-image" @change=imageUpload()>
-                   <input name="_token" type="hidden" id="upload-hidden-csrf-token" value="">
-                   {{-- <form method="POST" id="upload-form" action="" accept-charset="UTF-8">
-                        
-                        <input name="_token" type="hidden" id="input-hidden-csrf-token" value="">
-                   </form> --}}
-                </div>
-                <div class="uk-modal-footer uk-text-right">
-                    <a class="sc-button sc-button-flat sc-button-flat-danger uk-modal-close" href="#" >Close</a>
-                </div>
-            </div>
-        </div>
+       
         <div id="modal-detail" data-uk-modal>
             <div class="uk-modal-dialog">
                 <div class="uk-modal-header">
@@ -92,8 +73,12 @@
                                 <td class="id"></td>
                             </tr>
                             <tr>
-                                <td>Nama </td>
-                                <td class="nama"></td>
+                                <td>Nama Kategori </td>
+                                <td class="name"></td>
+                            </tr> 
+                            <tr>
+                                <td>Deskripsi</td>
+                                <td class="description"></td>
                             </tr> 
                             <tr>
                                 <td>Status Aktif</td>
@@ -283,7 +268,7 @@
                     },
                    
                     {
-                        data: 'nama',
+                        data: 'name',
                         
 
                     },
@@ -293,10 +278,10 @@
                         render: function(data){
                             let status='';
                            
-                            if(data.is_active=="1" || data.is_active==1){
+                            if(data.status=="1" || data.status==1){
                                 status += '<span class="uk-label md-bg-green-600"> Aktif</span>';
                             }
-                            else if(data.is_active=="0" || data.is_active==0){
+                            else if(data.status=="0" || data.status==0){
                                 status += '<span class="uk-label md-bg-yellow-600">Non Aktif</span>';
                             }
                             return status;
@@ -332,12 +317,7 @@
 
         return table;
     }
-    function modalUpload(id){
-        let csrfToken= document.querySelector("meta[name='csrf-token']").getAttribute("content");
-        document.getElementById('upload-hidden-csrf-token').value=csrfToken;
-        document.getElementById('product-id').value = id;
-        document.getElementById('product-image').click();
-    }
+   
 </script>
 
 <script>
@@ -396,31 +376,9 @@
                 detailUser:function(id){
                       console.log('detail data'+ id);
                 },
-                // deleteUser:function(){
-                //     document.getElementById("delete-form").submit();
-                //     document.getElementById('delete-form').action = null;
-                //     document.getElementById('input-hidden-csrf-token').value=null;
-                // },
-                
-                imageUpload:function(){
-                    
-                 
-                    
-                    // document.getElementById("upload-form").submit();
-                    // document.getElementById('upload-form').action = null;
-                    // document.getElementById('input-hidden-csrf-token').value=null;
-                },
-                selectedIsAdaGambar:function(event){
-                    this.selectIsAdaGambar = event.target.value;
-                   
-                    let arrParse= [];
-                    if(this.selectIsAdaGambar){
-                        arrParse['is_ada_gambar'] = this.selectIsAdaGambar;
-                    }
-                    let message = 'Data berhasil ditampilkan';
-                    datatableWithParse(arrParse,message);
-
-                },
+               
+               
+               
 
                 
             },

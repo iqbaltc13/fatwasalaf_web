@@ -50,21 +50,7 @@
                 </tr>
             </thead>
             <tbody>
-               @foreach ($datas as $data)
-                   <tr>
-                       <td>{{$data->id}}</td>
-                       <td>{{$data->judul}}</td>
-                       <td>
-                           @if($data->thumbnail_file)
-                            <img src="{{$data->thumbnail_file->full_path}}" alt="No Thumbnail" srcset="" width="200px">
-                           @endif
-                       </td>
-                       <td>
-                            <div><a class="sc-button sc-button-primary sc-js-button-wave-light" href="{{route('dashboard.artikel.edit',$data->id)}}"><span data-uk-icon="icon: pencil"></span></span> Edit</a></div>
-                            <div><a class="sc-button sc-button-danger sc-js-button-wave-light action-delete" dataid="{{$data->id}}" href="#confirm-delete" data-uk-toggle><span data-uk-icon="icon: trash" ></span>Hapus</a></div>
-                       </td>
-                   </tr>
-               @endforeach
+             
                 
             </tbody>                
         </table>
@@ -93,10 +79,10 @@
 @push('scripts')
 
 <script>
-    // let refresh = setInterval(function () { 
-    //     datatableReloadAll(); 
-    //     alertSuccess('Sukses memuat data');
-    // }, 60000);
+    let refresh = setInterval(function () { 
+        datatableReloadAll(); 
+        alertSuccess('Sukses memuat data');
+    }, 60000);
     function alertSuccess(message) {
         
         let alert = '<div class="uk-alert-success uk-alert" data-uk-alert="">'+
@@ -111,35 +97,183 @@
         document.querySelector('#alert-elements').innerHTML=alert;
         //$('#alert-elements').append(alert);
     }
-    // $(document).delegate( ".upload-gambar", "click", function() {
-    //     modalUpload($(this).attr("dataid"));
-    // });
+    $(document).delegate( ".upload-gambar", "click", function() {
+        modalUpload($(this).attr("dataid"));
+    });
     $(document).delegate( ".action-delete", "click", function() {
         let id=$(this).attr("dataid");
         document.getElementById('delete-form-id').value = id;
-        vue_component.deleteShow(id);
     });
-    // function defaultImageReplace(event){
-    //     let defaultImage = "{{asset("images/product-not-found.png")}}";
-    //     event.target.src = defaultImage;
-    // }
-    // $(document).delegate( ".detail-data", "click", function() {
-    //        modalDetail($(this).attr("dataid"));
-    // });
-    // function modalDetail(id){
-    //         let linkDetail = "{{route('dashboard.artikel.detail-json', ':id')}}";
-    //             linkDetail = linkDetail.replace(':id', id);
-    //             axios.get(linkDetail, {
+    function defaultImageReplace(event){
+        let defaultImage = "{{asset("images/product-not-found.png")}}";
+        event.target.src = defaultImage;
+    }
+    $(document).delegate( ".detail-data", "click", function() {
+           modalDetail($(this).attr("dataid"));
+    });
+    function modalDetail(id){
+            let linkDetail = "{{route('dashboard.category.detail-json', ':id')}}";
+                linkDetail = linkDetail.replace(':id', id);
+                axios.get(linkDetail, {
                 
-    //             })
-    //             .then(function (response) {
-    //                 //console.log(response.data.data);
-    //                 viewDetail(response.data.data);
-    //             })
-    //             .catch(function (error) {
-    //                 console.log(error);
-    //             });
-    // }
+                })
+                .then(function (response) {
+                    //console.log(response.data.data);
+                    viewDetail(response.data.data);
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+    }
+   
+    function datatableWithParse(arrParse,message){
+        var url = "{{route('dashboard.category.datatable')}}";
+        url = url + '?';
+        for (var key in arrParse) {
+            if (arrParse.hasOwnProperty(key)){
+                url=url+key+'='+arrParse[key]+'&&';
+                
+            }
+               
+        }
+        
+        //$('.datatable tbody').empty();
+       
+        let table =$('.datatable').DataTable().ajax.url(url).load();
+        
+
+        let alert = '<div class="uk-alert-success uk-alert" data-uk-alert="">'+
+                        '<a class="uk-alert-close uk-icon uk-close" data-uk-close="">'+
+                            '<svg width="14" height="14" viewBox="0 0 14 14" xmlns="http://www.w3.org/2000/svg" data-svg="close-icon">'+
+                                '<line fill="none" stroke="#000" stroke-width="1.1" x1="1" y1="1" x2="13" y2="13"></line>'+
+                                '<line fill="none" stroke="#000" stroke-width="1.1" x1="13" y1="1" x2="1" y2="13"></line>'+
+                            '</svg>'+
+                        '</a>'+message+					
+                    '</div>';
+
+        document.querySelector('#alert-elements').innerHTML=alert;
+
+
+        return table;
+        
+    }
+    function viewDetail(data) {
+        if(data){
+            document.querySelector('#modal-detail .id').innerHTML            = data.id ? data.id   : '';
+            document.querySelector('#modal-detail .status_aktif').innerHTML   = data.is_active == 1 ||  data.is_active == '1'? 'Aktif'   : 'Non Aktif';
+            document.querySelector('#modal-detail .nama').innerHTML          = data.nama ? data.nama   : '';
+           
+           
+            
+            
+        }
+        
+    }
+    function datatableReloadAfterAction(message){
+        
+        let table =$('.datatable').DataTable().ajax.reload();
+        let alert = '<div class="uk-alert-success uk-alert" data-uk-alert="">'+
+                        '<a class="uk-alert-close uk-icon uk-close" data-uk-close="">'+
+                            '<svg width="14" height="14" viewBox="0 0 14 14" xmlns="http://www.w3.org/2000/svg" data-svg="close-icon">'+
+                                '<line fill="none" stroke="#000" stroke-width="1.1" x1="1" y1="1" x2="13" y2="13"></line>'+
+                                '<line fill="none" stroke="#000" stroke-width="1.1" x1="13" y1="1" x2="1" y2="13"></line>'+
+                            '</svg>'+
+                        '</a>'+message+					
+                    '</div>';
+
+        document.querySelector('#alert-elements').innerHTML=alert;
+       
+        return table;
+        
+    }
+    function datatableReloadAll(){
+        var url = "{{route('dashboard.category.datatable')}}";
+        let table =$('.datatable').DataTable().ajax.url(url).load();
+       
+        return table;
+        
+    }
+    function datatable(){
+        var url = "{{route('dashboard.category.datatable')}}";
+        var table = $('.datatable').DataTable({
+            "autoWidth": true,
+            "scrollX"         :       true,
+            "scrollCollapse"  :       true,
+            // ordering: false,
+            "columnDefs": [
+                            
+                           
+                            
+                            
+                            
+                            {
+                                    "targets": '_all',
+                                    "defaultContent": "---"
+                            },
+                        ],
+            "order": [[ 0, "desc" ]],
+           
+            "processing": true,
+            //"serverSide": true,
+            "ordering": false,
+            
+            "ajax": url,
+            "columns": [
+                    { 
+                        data: 'id',
+                    },
+                   
+                    {
+                        data: 'name',
+                        
+
+                    },
+                    {
+                        data: null,
+                        searchable: true,
+                        render: function(data){
+                            let status='';
+                           
+                            if(data.status=="1" || data.status==1){
+                                status += '<span class="uk-label md-bg-green-600"> Aktif</span>';
+                            }
+                            else if(data.status=="0" || data.status==0){
+                                status += '<span class="uk-label md-bg-yellow-600">Non Aktif</span>';
+                            }
+                            return status;
+                        }
+                        
+
+                    },
+                   
+                    { 
+                        data: null,
+                        searchable: false,
+                        render: function(data){
+                            let linkEdit = "{{route('dashboard.category.edit', ':id')}}";
+                                linkEdit = linkEdit.replace(':id', data.id);
+                            let aksi='';
+                            aksi +=    '<div><a class="sc-button sc-button-success sc-js-button-wave-light detail-data" dataid="'+data.id+'" href="#modal-detail" data-uk-toggle><span data-uk-icon="icon: file-text"></span>Detail</a></div>'+
+                                       '<div><a class="sc-button sc-button-primary sc-js-button-wave-light" href="'+linkEdit+'"><span data-uk-icon="icon: pencil"></span></span> Edit</a></div>'+
+                                       '<div><a class="sc-button sc-button-danger sc-js-button-wave-light action-delete" dataid="'+data.id+'" href="#confirm-delete" data-uk-toggle><span data-uk-icon="icon: trash"></span>Hapus</a></div>';
+
+                                       
+
+                                                     
+                                
+                            return aksi;
+                        }
+                        
+                    },
+                    
+                    
+                    
+                ]
+        });
+
+        return table;
+    }
+   
    
 </script>
 

@@ -1,11 +1,11 @@
 <div id="vue-form-element">
     <div class="sc-padding-small">
       
-        <label class="uk-form-label" for="judul">Judul<sup>*</sup></label>
+        <label class="uk-form-label" for="title">Judul<sup>*</sup></label>
         <div class="uk-form-controls">
-            <input class="uk-input" id="judul" name="judul" type="text" data-sc-input="outline" required>
+            <input class="uk-input" id="title" name="title" type="text"  data-sc-input="outline" required>
         </div>
-        @error('judul')
+        @error('title')
            
             <div class="uk-alert-danger" data-uk-alert>
                 <a class="uk-alert-close" data-uk-close></a>
@@ -17,10 +17,10 @@
       
         <label class="uk-form-label" for="artikel">Artikel</label>
         <div class="uk-form-controls">
-            <textarea  name="artikel" id="artikel"  cols="30" rows="20"></textarea>
+            <textarea  name="article" id="article"  cols="30" rows="20"></textarea>
          
         </div>
-        @error('artikel')
+        @error('article')
            
             <div class="uk-alert-danger" data-uk-alert>
                 <a class="uk-alert-close" data-uk-close></a>
@@ -28,24 +28,8 @@
             </div>
         @enderror
     </div>
-    <div class="sc-padding-small uk-margin-medium-top">
-        <label class="uk-form-label" for="judul">Thumbnail<sup>*</sup></label>
-        <div class="uk-form-controls">
-            <input type="hidden" name="thumbnail_file_id" id="thumbnail_file_id">
-            <input type="file" name="thumbnail" id="thumbnail" style="display: none" onchange="uploadFile()">
-            <img src="#" id="thumbnail_image" alt="File Thumbnail" srcset="" style="display: none">
-            <button type="button" class="sc-button sc-button-success" id="thumbnail_upload" onclick="document.getElementById('thumbnail').click()"> Unggah </button>
-        </div>
-    </div>
-    <div class="sc-padding-small uk-margin-medium-top">
-        <label class="uk-form-label" for="judul">Konten<sup>*</sup></label>
-        <div class="uk-form-controls">
-            <input type="hidden" name="konten_file_id" id="konten_file_id">
-            <input type="file" name="konten" id="konten" style="display: none" onchange="uploadKonten()">
-            <img src="#" id="konten_image" alt="File Konten" srcset="" style="display: none">
-            <button type="button" class="sc-button sc-button-success" id="konten_upload" onclick="document.getElementById('konten').click()"> Unggah </button>
-        </div>
-    </div>
+    
+   
 </div>
 @push('scripts')
     <script>

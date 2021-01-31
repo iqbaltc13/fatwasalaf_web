@@ -1,11 +1,11 @@
 <div id="vue-form-element">
     <div class="sc-padding-small">
       
-        <label class="uk-form-label" for="judul">Judul<sup>*</sup></label>
+        <label class="uk-form-label" for="title">Judul<sup>*</sup></label>
         <div class="uk-form-controls">
-            <input class="uk-input" id="judul" name="judul" type="text" data-sc-input="outline" required value="{{$data->judul}}">
+            <input class="uk-input" id="title" name="title" type="text" value="{{$data->title}}" data-sc-input="outline" required>
         </div>
-        @error('judul')
+        @error('title')
            
             <div class="uk-alert-danger" data-uk-alert>
                 <a class="uk-alert-close" data-uk-close></a>
@@ -17,12 +17,10 @@
       
         <label class="uk-form-label" for="artikel">Artikel</label>
         <div class="uk-form-controls">
-            <textarea  name="artikel" id="artikel"  cols="30" rows="20" >
-                {{$data->artikel}}
-            </textarea>
-          
+            <textarea  name="article" id="article"  cols="30" rows="20">{{$data->article}}</textarea>
+         
         </div>
-        @error('artikel')
+        @error('article')
            
             <div class="uk-alert-danger" data-uk-alert>
                 <a class="uk-alert-close" data-uk-close></a>
@@ -30,23 +28,27 @@
             </div>
         @enderror
     </div>
-    <div class="sc-padding-small uk-margin-medium-top">
-        <label class="uk-form-label" for="judul">Thumbnail<sup>*</sup></label>
+    <div class="uk-margin-medium-top sc-padding-small">
+        <label class="uk-form-label" for="built_in">Status Aktif<sup>*</sup></label>
         <div class="uk-form-controls">
-            <input type="hidden" name="thumbnail_file_id" id="thumbnail_file_id" {{$data->thumbnail_file?$data->thumbnail_file->id:""}}>
-            <input type="file" name="thumbnail" id="thumbnail" style="display: none" onchange="uploadFile()">
-            <img src="{{$data->thumbnail_file?$data->thumbnail_file->full_path:'#'}}" id="thumbnail_image" alt="File Thumbnail" srcset="" style="{{$data->thumbnail_file?'display:block':'display:none'}}" width="400px">
-            <button type="button" class="sc-button sc-button-success" id="thumbnail_upload" onclick="document.getElementById('thumbnail').click()"> Unggah </button>
+            <select class="uk-select" id="status"   name="status" required>
+                <option @if(is_null($data->is_active)) selected @endif value="">-- Pilih Status Aktif--</option>
+                <option  @if($data->status == 0) selected @endif value="0">0</option>
+                <option  @if($data->status == 1) selected @endif value="1">1</option>
+               
+                   
+                
+                
+            
+            </select>
         </div>
-    </div>
-    <div class="sc-padding-small uk-margin-medium-top">
-        <label class="uk-form-label" for="judul">konten<sup>*</sup></label>
-        <div class="uk-form-controls">
-            <input type="hidden" name="konten_file_id" id="konten_file_id" {{$data->konten_file?$data->konten_file->id:""}}>
-            <input type="file" name="konten" id="konten" style="display: none" onchange="uploadFile()">
-            <img src="{{$data->konten_file?$data->konten_file->full_path:'#'}}" id="konten_image" alt="File konten" srcset="" style="{{$data->konten_file?'display:block':'display:none'}}" width="400px">
-            <button type="button" class="sc-button sc-button-success" id="konten_upload" onclick="document.getElementById('konten').click()"> Unggah </button>
-        </div>
+        @error('status')
+           
+            <div class="uk-alert-danger" data-uk-alert>
+                <a class="uk-alert-close" data-uk-close></a>
+                    {{ $message }}
+            </div>
+        @enderror
     </div>
 </div>
    

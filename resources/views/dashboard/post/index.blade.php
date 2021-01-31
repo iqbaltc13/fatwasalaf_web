@@ -42,8 +42,9 @@
             <thead>
                 <tr>
                     <th>Id</th>
-                    <th>Nama</th>
-                   
+                    <th>Judul</th>
+                    <th>Total Pencarian</th>
+                    <th>Total Kunjungan</th>
                     <th>Status Aktif</th>
                     <th>Action</th>
                 </tr>
@@ -53,26 +54,7 @@
                 
             </tbody>                
         </table>
-        <div id="upload-form" data-uk-modal>
-            <div class="uk-modal-dialog">
-                <div class="uk-modal-header">
-                    <h2 class="uk-modal-title">Upload Gambar</h2>
-                </div>
-                <div class="uk-modal-body upload-product-image">
-                   <p>Upload Gambar Banner</p>
-                   <input type="hidden" name="gambar-banner" id="product-id">
-                   <input type="file" name="gambar-banner" id="product-image" @change=imageUpload()>
-                   <input name="_token" type="hidden" id="upload-hidden-csrf-token" value="">
-                   {{-- <form method="POST" id="upload-form" action="" accept-charset="UTF-8">
-                        
-                        <input name="_token" type="hidden" id="input-hidden-csrf-token" value="">
-                   </form> --}}
-                </div>
-                <div class="uk-modal-footer uk-text-right">
-                    <a class="sc-button sc-button-flat sc-button-flat-danger uk-modal-close" href="#" >Close</a>
-                </div>
-            </div>
-        </div>
+        
         <div id="modal-detail" data-uk-modal>
             <div class="uk-modal-dialog">
                 <div class="uk-modal-header">
@@ -92,8 +74,20 @@
                                 <td class="id"></td>
                             </tr>
                             <tr>
-                                <td>Nama </td>
-                                <td class="nama"></td>
+                                <td>Judul</td>
+                                <td class="title"></td>
+                            </tr> 
+                            <tr>
+                                <td>Artikel</td>
+                                <td class="article"></td>
+                            </tr> 
+                            <tr>
+                                <td>Total Pencarian</td>
+                                <td class="total_searched"></td>
+                            </tr> 
+                            <tr>
+                                <td>Total Kunjungan</td>
+                                <td class="total_accessed"></td>
                             </tr> 
                             <tr>
                                 <td>Status Aktif</td>
@@ -283,7 +277,17 @@
                     },
                    
                     {
-                        data: 'nama',
+                        data: 'title',
+                        
+
+                    },
+                    {
+                        data: 'total_searched',
+                        
+
+                    },
+                    {
+                        data: 'total_accessed',
                         
 
                     },
