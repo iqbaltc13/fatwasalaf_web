@@ -58,12 +58,12 @@
           <!-- Navbar Menu -->
           <div id="navbarcollapse" class="collapse navbar-collapse">
             <ul class="navbar-nav ml-auto">
-              <li class="nav-item"><a href="index.html" class="nav-link ">Home</a>
+              <li class="nav-item"><a href="{{route('blog.index')}}" class="nav-link ">Beranda</a>
               </li>
-              <li class="nav-item"><a href="blog.html" class="nav-link">Blog</a>
+              <li class="nav-item"><a href="{{route('blog.blog')}}" class="nav-link">Blog</a>
               </li>
-              <li class="nav-item"><a href="post.html" class="nav-link ">Post</a>
-              </li>
+              {{-- <li class="nav-item"><a href="{{route('blog.post',':id')}}" class="nav-link ">Post</a>
+              </li> --}}
               <li class="nav-item"><a href="#" class="nav-link ">Contact</a>
               </li>
             </ul>

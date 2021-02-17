@@ -29,7 +29,7 @@ Route::group(['prefix' => 'blog-mockup', 'namespace' => 'Blog', 'as'=>'blog.mock
 });
 Route::group([ 'namespace' => 'Blog', 'as'=>'blog.'], function () {
     Route::get('index', "BlogController@index")->name('index');
-    Route::get('blog', "BlogController@blog")->name('blog');
+    Route::get('index-blog', "BlogController@indexBlog")->name('blog');
     Route::get('post/{id}', "BlogController@detail")->name('post');
 });
 Route::group([ 'prefix' => 'comment','namespace' => 'Blog', 'as'=>'comment.'], function () {

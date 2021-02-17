@@ -37,20 +37,45 @@ class BlogController extends Controller
             'post_x_category.category',
             'comment'
             ]);
+        $latest = $datas->orderBy('created_at', 'DESC')->take(3)->get();
         $datas =$datas->inRandomOrder()->take(3);
 
         $datas = $datas->get();
 
         $arrReturn  = [
+              'navbar' => 'index',
+            'arrData' => $datas,
+            'latest' =>$latest
+            
+        ];
+ // dd($latest);
+        return view($this->view.'index',$arrReturn)->with('sidebar', $this->sidebar);
+
+    }
+
+    //halaman blog
+        public function blog(Request $request){
+        $datas = Post::with([
+            'post_x_category',
+            'post_x_category.category',
+            'comment'
+            ]);
+        $datas =$datas->inRandomOrder()->take(3);
+
+        $datas = $datas->get();
+
+        $arrReturn  = [
+              'navbar' => 'blog',
             'arrData' => $datas,
             
         ];
-
-        return view($this->view.'index',$arrReturn)->with('sidebar', $this->sidebar);
+        
+        return view($this->view.'blog',$arrReturn)->with('sidebar', $this->sidebar);
 
     }
     //halaman detail post
     public function detail(Request $request,$id){
+        // dd($id);
         $datas = Post::with([
             'post_x_category',
             'post_x_category.category',
@@ -60,23 +85,31 @@ class BlogController extends Controller
 
         $datas = $datas->first();
 
+         $prevId = Post::where('id', '<', $datas->id)->max('id');
+         $nextId = Post::where('id', '>', $datas->id)->min('id');
+         // dd($nextId);
+         $prevTitle =Post::where('id',$prevId)->value('title');
+         $nextTitle =Post::where('id',$nextId)->value('title');
+         // dd($prevTitle);
+         // dd($nextTitle);
         $dataCategories = Category::with([
             'category_x_post',
         
         ]);
-    
+        $latest = $datas->orderBy('created_at', 'DESC')->take(3)->get();
 
         $dataCategories = $dataCategories->get();
 
-        
+        // dd($datas);
 
         $arrReturn  = [
             'arrData' => $datas,
-            'arrDataCategory' =>$dataCategories
+            'arrDataCategory' =>$dataCategories,
+            'latest'    =>$latest
             
         ];
-
-        return view($this->view.'post',$arrReturn)->with('sidebar', $this->sidebar);
+        
+        return view($this->view.'post',$arrReturn)->with('sidebar', $this->sidebar)->with('prevId',$prevId)->with('nextId',$nextId)->with('prevTitle',$prevTitle)->with('nextTitle',$nextTitle);
     }
     public function submitComment(Request $request,$idPost){
         $this->validate($request, [
@@ -140,9 +173,10 @@ class BlogController extends Controller
             'post_x_category.category',
             'comment'
             ]);
-        $datas =$datas->inRandomOrder()->take(4);
+        $latest = $datas->orderBy('created_at', 'DESC')->take(3)->get();
+        $datas =$datas->inRandomOrder()->paginate(4);
 
-        $datas = $datas->get();
+        // $datas = $datas->get();
         $dataCategories = Category::with([
             'category_x_post',
         
@@ -155,11 +189,13 @@ class BlogController extends Controller
 
         $arrReturn  = [
             'arrData' => $datas,
-            'arrDataCategory' =>$dataCategories
+            'arrDataCategory' =>$dataCategories,
+            'navbar' => 'index',
+            'latest' => $latest
             
         ];
 
-        return view($this->view.'post',$arrReturn)->with('sidebar', $this->sidebar);
+        return view($this->view.'blog',$arrReturn)->with('sidebar', $this->sidebar);
 
     }
     public function search(Request $request){
