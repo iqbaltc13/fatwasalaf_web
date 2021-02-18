@@ -22,9 +22,17 @@
                   <div class="avatar"><img src="{{url('/')}}/templates/bootstrap-blog-1-2-1/distribution/img/gallery-2.jpg" data-fancybox="gallery" class="image"><img src="{{url('/')}}/templates/bootstrap-blog-1-2-1/distribution/img/avatar-1.jpg" alt="..." class="img-fluid"></div>
                   <div class="title"><span>John Doe</span></div></a>
                 <div class="d-flex align-items-center flex-wrap">       
-                  <div class="date"><i class="icon-clock"></i> 2 months ago</div>
-                  <div class="views"><i class="icon-eye"></i> 500</div>
-                  <div class="comments meta-last"><i class="icon-comment"></i>12</div>
+                  <div class="date"><i class="icon-clock"></i> 
+                    {{$arrData->created_at->diffForHumans()}}
+                  </div>
+                  <div class="views"><i class="icon-eye"></i>{{$arrData->total_accessed}}</div>
+                  <div class="comments meta-last"><i class="icon-comment"></i>
+                    <?php $x=0?>
+                    @foreach($arrData->comment as $komen)
+                    <?php $x++?>
+                    @endforeach
+                    {{$x}}
+                  </div>
                 </div>
               </div>
               <div class="post-body">
@@ -46,53 +54,48 @@
                 <a href="#" class="tag">#{{$cat->category->name}}</a>
                 @endforeach
               </div>
-              <div class="posts-nav d-flex justify-content-between align-items-stretch flex-column flex-md-row"><a href="{{route('blog.post', $prevId)}}" class="prev-post text-left d-flex align-items-center">
+              <div class="posts-nav d-flex justify-content-between align-items-stretch flex-column flex-md-row">
+                @if(!empty($prevId))
+                <a href="{{route('blog.post', $prevId)}}" class="prev-post text-left d-flex align-items-center">
                   <div class="icon prev"><i class="fa fa-angle-left"></i></div>
                   <div class="text"><strong class="text-primary">Previous Post </strong>
                     <h6>{{$prevTitle}}</h6>
-                  </div></a><a href="{{route('blog.post', $nextId)}}" class="next-post text-right d-flex align-items-center justify-content-end">
+                  </div>
+                </a>
+                @endif
+                @if(!empty($nextId))
+                <a href="{{route('blog.post', $nextId)}}" class="next-post text-right d-flex align-items-center justify-content-end">
                   <div class="text"><strong class="text-primary">Next Post </strong>
                     <h6>{{$nextTitle}}</h6>
                   </div>
-                  <div class="icon next"><i class="fa fa-angle-right">   </i></div></a></div>
+                  <div class="icon next"><i class="fa fa-angle-right"></i></div>
+                </a>
+                @endif
+              </div>
               <div class="post-comments">
                 <header>
-                  <h3 class="h6">Post Comments<span class="no-of-comments">(3)</span></h3>
+                  <h3 class="h6">Komentar<span class="no-of-comments">
+                    <?php $k=0;?>
+                  @foreach($arrData->comment as $komen)
+                    <?php $k++;?>
+                  @endforeach
+                  {{$k}}
+                </span></h3>
                 </header>
+                @foreach($arrData->comment as $komen)
                 <div class="comment">
                   <div class="comment-header d-flex justify-content-between">
                     <div class="user d-flex align-items-center">
                       <div class="image"><img src="{{url('/')}}/templates/bootstrap-blog-1-2-1/distribution/img/gallery-2.jpg" data-fancybox="gallery" class="image"><img src="{{url('/')}}/templates/bootstrap-blog-1-2-1/distribution/img/user.svg" alt="..." class="img-fluid rounded-circle"></div>
-                      <div class="title"><strong>Jabi Hernandiz</strong><span class="date">May 2016</span></div>
+                      <div class="title"><strong>{{$komen->name}}</strong><span class="date">{{$komen->created_at->format(' d M Y| H.i')}} WIB</span></div>
                     </div>
                   </div>
                   <div class="comment-body">
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.</p>
+                    <p>{{$komen->comment}}</p>
                   </div>
                 </div>
-                <div class="comment">
-                  <div class="comment-header d-flex justify-content-between">
-                    <div class="user d-flex align-items-center">
-                      <div class="image"><img src="{{url('/')}}/templates/bootstrap-blog-1-2-1/distribution/img/user.svg" alt="..." class="img-fluid rounded-circle"></div>
-                      <div class="title"><strong>Nikolas</strong><span class="date">May 2016</span></div>
-                    </div>
-                  </div>
-                  <div class="comment-body">
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.</p>
-                  </div>
-                </div>
-                <div class="comment">
-                  <div class="comment-header d-flex justify-content-between">
-                    <div class="user d-flex align-items-center">
-                      <div class="image"><img src="{{url('/')}}/templates/bootstrap-blog-1-2-1/distribution/img/gallery-2.jpg" data-fancybox="gallery" class="image"><img src="{{url('/')}}/templates/bootstrap-blog-1-2-1/distribution/img/user.svg" alt="..." class="img-fluid rounded-circle"></div>
-                      <div class="title"><strong>John Doe</strong><span class="date">May 2016</span></div>
-                    </div>
-                  </div>
-                  <div class="comment-body">
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.</p>
-                  </div>
-                </div>
-              </div>
+                @endforeach
+                
               <div class="add-comment">
                 <header>
                   <h3 class="h6">Leave a reply</h3>
@@ -140,10 +143,16 @@
             @foreach($latest as $post)
               <div class="item d-flex align-items-center">
                 <div class="image"><img src="{{url('/')}}/templates/bootstrap-blog-1-2-1/distribution/img/gallery-2.jpg" data-fancybox="gallery" class="image"><img src="{{url('/')}}/templates/bootstrap-blog-1-2-1/distribution/img/small-thumbnail-1.jpg" alt="..." class="img-fluid"></div>
-                <div class="title"><strong>{{$post->title}}</strong>
+                <div class="title"><a href="{{route('blog.post', $post->id)}}"><strong>{{$post->title}}</strong></a>
                   <div class="d-flex align-items-center">
-                    <div class="views"><i class="icon-eye"></i> 500</div>
-                    <div class="comments"><i class="icon-comment"></i>12</div>
+                    <div class="views"><i class="icon-eye"></i>{{$post->total_accessed}}</div>
+                    <div class="comments"><i class="icon-comment"></i>
+                      <?php $i=0?>
+                    @foreach($post->comment as $komen)
+                    <?php $i++?>
+                    @endforeach
+                    {{$i}}
+                    </div>
                   </div>
                 </div>
               </div></a><a href="#">  
@@ -154,11 +163,20 @@
           <header>
             <h3 class="h6">Categories</h3>
           </header>
-          <div class="item d-flex justify-content-between"><a href="#">Growth</a><span>12</span></div>
-          <div class="item d-flex justify-content-between"><a href="#">Local</a><span>25</span></div>
-          <div class="item d-flex justify-content-between"><a href="#">Sales</a><span>8</span></div>
-          <div class="item d-flex justify-content-between"><a href="#">Tips</a><span>17</span></div>
-          <div class="item d-flex justify-content-between"><a href="#">Local</a><span>25</span></div>
+          @foreach($arrDataCategory as $kategori)
+          
+            <div class="item d-flex justify-content-between"><a href="#">{{$kategori->name}}</a>
+                <span>
+                  <?php $i=0;?>
+                  @foreach($kategori->category_x_post as $a)
+                    <?php $i++?>                    
+                  @endforeach
+                  {{$i}}
+              </span>
+          </div>
+          
+          @endforeach
+          
         </div>
         <!-- Widget [Tags Cloud Widget]-->
         <div class="widget tags">       

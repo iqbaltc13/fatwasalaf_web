@@ -12,10 +12,10 @@
             <?php $i++?>
             <!-- post -->
             <div class="post col-xl-6">
-              <div class="post-thumbnail"><a href="post.html"><img src="{{url('/')}}/templates/bootstrap-blog-1-2-1/distribution/img/blog-post-1.jpeg" alt="..." class="img-fluid"></a></div>
+              <div class="post-thumbnail"><a href="post.html"><img src="{{-- {{url('/')}}/templates/bootstrap-blog-1-2-1/distribution/img/blog-post-1.jpeg --}}" alt="..." class="img-fluid"></a></div>
               <div class="post-details">
                 <div class="post-meta d-flex justify-content-between">
-                  <div class="date meta-last">20 May | 2016</div>
+                  <div class="date meta-last">{{$post->created_at->format('j F | Y')}}</div>
                   <div class="category">
                     <a href="#">
                         @foreach($post->post_x_category as $cat)
@@ -26,10 +26,20 @@
                   <h3 class="h4">{{$post->title}}</h3></a>
                 <p style="overflow: hidden; height: 4.5em;" class="text-muted">{{$post->article}}}</p>
                 <footer class="post-footer d-flex align-items-center"><a href="#" class="author d-flex align-items-center flex-wrap">
-                    <div class="avatar"><img src="{{url('/')}}/templates/bootstrap-blog-1-2-1/distribution/img/avatar-3.jpg" alt="..." class="img-fluid"></div>
+                    <div class="avatar"><img src="{{-- {{url('/')}}/templates/bootstrap-blog-1-2-1/distribution/img/avatar-3.jpg --}}" alt="..." class="img-fluid"></div>
                     <div class="title"><span>John Doe</span></div></a>
-                  <div class="date"><i class="icon-clock"></i> 2 months ago</div>
-                  <div class="comments meta-last"><i class="icon-comment"></i>12</div>
+                  <div class="date"><i class="icon-clock"></i> 
+                      {{$post->created_at->diffForHumans()}}
+                  </div>
+                  <div class="comments meta-last"><i class="icon-comment"></i>
+                  
+                    <?php $i=0?>
+                    @foreach($post->comment as $komen)
+                    <?php $i++?>
+                    @endforeach
+                    {{$i}}
+                    
+                </div>
                 </footer>
               </div>
             </div>
@@ -66,11 +76,19 @@
           <div class="blog-posts"><a href="#">
             @foreach($latest as $post)
               <div class="item d-flex align-items-center">
-                <div class="image"><img src="{{url('/')}}/templates/bootstrap-blog-1-2-1/distribution/img/small-thumbnail-1.jpg" alt="..." class="img-fluid"></div>
-                <div class="title"><strong>{{$post->title}}</strong>
+                <div class="image"><img src="{{-- {{url('/')}}/templates/bootstrap-blog-1-2-1/distribution/img/small-thumbnail-1.jpg --}}" alt="..." class="img-fluid"></div>
+                <div class="title"> <a href="{{route('blog.post', $post->id)}}"><strong>{{$post->title}}</strong></a>
                   <div class="d-flex align-items-center">
-                    <div class="views"><i class="icon-eye"></i> 500</div>
-                    <div class="comments"><i class="icon-comment"></i>12</div>
+                    <div class="views"><i class="icon-eye"></i>{{$post->total_accessed}}</div>
+                    <div class="comments"><i class="icon-comment"></i>
+                    
+                    <?php $i=0?>
+                    @foreach($post->comment as $komen)
+                    <?php $i++?>
+                    @endforeach
+                    {{$i}}
+                    
+                    </div>
                   </div>
                 </div>
               </div></a><a href="#">
@@ -82,11 +100,19 @@
           <header>
             <h3 class="h6">Categories</h3>
           </header>
-          <div class="item d-flex justify-content-between"><a href="#">Growth</a><span>12</span></div>
-          <div class="item d-flex justify-content-between"><a href="#">Local</a><span>25</span></div>
-          <div class="item d-flex justify-content-between"><a href="#">Sales</a><span>8</span></div>
-          <div class="item d-flex justify-content-between"><a href="#">Tips</a><span>17</span></div>
-          <div class="item d-flex justify-content-between"><a href="#">Local</a><span>25</span></div>
+          @foreach($arrDataCategory as $kategori)
+          
+            <div class="item d-flex justify-content-between"><a href="#">{{$kategori->name}}</a>
+                <span>
+                  <?php $i=0;?>
+                  @foreach($kategori->category_x_post as $a)
+                    <?php $i++?>                    
+                  @endforeach
+                  {{$i}}
+              </span>
+          </div>
+          
+          @endforeach
         </div>
         <!-- Widget [Tags Cloud Widget]-->
         <div class="widget tags">       

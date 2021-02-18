@@ -90,7 +90,7 @@ class BlogController extends Controller
          // dd($nextId);
          $prevTitle =Post::where('id',$prevId)->value('title');
          $nextTitle =Post::where('id',$nextId)->value('title');
-         // dd($prevTitle);
+         // dd($nextTitle);
          // dd($nextTitle);
         $dataCategories = Category::with([
             'category_x_post',
@@ -100,7 +100,7 @@ class BlogController extends Controller
 
         $dataCategories = $dataCategories->get();
 
-        // dd($datas);
+        
 
         $arrReturn  = [
             'arrData' => $datas,
@@ -174,6 +174,7 @@ class BlogController extends Controller
             'comment'
             ]);
         $latest = $datas->orderBy('created_at', 'DESC')->take(3)->get();
+        // dd($latest);
         $datas =$datas->inRandomOrder()->paginate(4);
 
         // $datas = $datas->get();
@@ -185,7 +186,7 @@ class BlogController extends Controller
 
         $dataCategories = $dataCategories->get();
 
-        
+        // dd($dataCategories);
 
         $arrReturn  = [
             'arrData' => $datas,

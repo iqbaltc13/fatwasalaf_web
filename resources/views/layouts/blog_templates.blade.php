@@ -51,7 +51,7 @@
         <div class="container">
           <!-- Navbar Brand -->
           <div class="navbar-header d-flex align-items-center justify-content-between">
-            <!-- Navbar Brand --><a href="index.html" class="navbar-brand">Bootstrap Blog</a>
+            <!-- Navbar Brand --><a href="index.html" class="navbar-brand">Fatwa Salaf</a>
             <!-- Toggle Button-->
             <button type="button" data-toggle="collapse" data-target="#navbarcollapse" aria-controls="navbarcollapse" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler"><span></span><span></span><span></span></button>
           </div>
@@ -64,7 +64,7 @@
               </li>
               {{-- <li class="nav-item"><a href="{{route('blog.post',':id')}}" class="nav-link ">Post</a>
               </li> --}}
-              <li class="nav-item"><a href="#" class="nav-link ">Contact</a>
+              <li class="nav-item"><a href="#" class="nav-link ">Kontak</a>
               </li>
             </ul>
             <div class="navbar-text"><a href="#" class="search-btn"><i class="icon-search-1"></i></a></div>
