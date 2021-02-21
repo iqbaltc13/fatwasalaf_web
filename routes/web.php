@@ -44,6 +44,21 @@ Route::group(['middleware' => ['auth'] ], function() {
         Route::post('file', "Api\V1\UploadFileController@uploadFile")->name('upload_file');
     });
     Route::group(['prefix' => 'dashboard', 'namespace' => 'Dashboard','as'=>'dashboard.'], function() {
+        Route::group(['prefix' => 'config', 'as' =>'config.'], function () {
+            Route::get('log', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index')->name('log');
+        });
+        Route::group(['prefix' => 'user-management', 'namespace' => 'User' ,'as'=>'user.'], function() {
+            Route::get('index','UserController@index')->name('index');
+            Route::get('data','UserController@data')->name('data');
+            Route::get('create','UserController@create')->name('create');
+            Route::get('edit/{id}','UserController@edit')->name('edit');
+            Route::delete('delete/{id}','UserController@destroy')->name('destroy');  
+            Route::post('delete-json','UserController@destroyJson')->name('destroy-json'); 
+            Route::post('store','UserController@store')->name('store'); 
+            Route::post('update/{id}','UserController@update')->name('update');
+            Route::get('detail/{id}','UserController@detail')->name('detail'); 
+            Route::get('detail-json/{id}','UserController@detailJson')->name('detail-json');
+        });
         Route::group(['prefix'=> 'post', 'as'=>'post.'], function() {
             Route::get('index','PostController@index')->name('index');
             Route::get('data','PostController@data')->name('data');
@@ -81,18 +96,7 @@ Route::group(['middleware' => ['auth'] ], function() {
         });
         Route::group(['as'=>'master.'], function() {
         
-            Route::group(['prefix' => 'user-management', 'namespace' => 'User'], function() {
-                Route::get('index','UserController@index')->name('dashboard.user.index');
-                Route::get('data','UserController@data')->name('dashboard.user.data');
-                Route::get('create','UserController@create')->name('dashboard.user.create');
-                Route::get('edit/{id}','UserController@edit')->name('dashboard.user.edit');
-                Route::delete('delete/{id}','UserController@destroy')->name('dashboard.user.destroy');  
-                Route::post('delete-json','UserController@destroyJson')->name('dashboard.user.destroy-json'); 
-                Route::post('store','UserController@store')->name('dashboard.user.store'); 
-                Route::post('update/{id}','UserController@update')->name('dashboard.user.update');
-                Route::get('detail/{id}','UserController@detail')->name('dashboard.user.detail'); 
-                Route::get('detail-json/{id}','UserController@detailJson')->name('dashboard.user.detail-json');
-            });
+           
             Route::group(['prefix' => 'notifikasi-broadcast','as'=>'dashboard.notifikasi_broadcast.'], function() {
                 Route::get('/','NotifikasiController@index')->name('index');
                 Route::get('data-user','NotifikasiController@getDataCustomer')->name('data_customer');
@@ -135,9 +139,7 @@ Route::group(['middleware' => ['auth'] ], function() {
                 
             });
            
-            Route::group(['prefix' => 'config', 'as' =>'dashboard.config.'], function () {
-                Route::get('log', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index')->name('log');
-            });
+           
             Route::group(['prefix' => 'master', 'namespace' => 'Master','as'=>'dashboard.master.'], function() {
                 Route::group(['prefix' => 'pendidikan','as'=>'pendidikan.'], function() {
                     Route::get('index','PendidikanController@index')->name('index');
