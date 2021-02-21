@@ -24,8 +24,9 @@ class PostController extends Controller
 {
     public function __construct()
     {
-        $this->route='dashboard.post.';
-        $this->view='dashboard.post.';
+        $this->route      ='dashboard.post.';
+        $this->view       ='dashboard.post.';
+        $this->sidebar    ='post'; 
     }
     public function index(){
         $datas = Post::with([
@@ -37,7 +38,7 @@ class PostController extends Controller
         $arrReturn=[
             'arrData' => $datas
         ];
-        return view($this->view.'index',$arrReturn);
+        return view($this->view.'index',$arrReturn)->with('sidebar', $this->sidebar);
     }
     public function data(Request $request){
         $datas = Post::with([
@@ -79,7 +80,7 @@ class PostController extends Controller
             'arrDataCategories'      => $categories,
             
         ];
-        return view($this->view.'edit',$arrReturn);
+        return view($this->view.'edit',$arrReturn)->with('sidebar', $this->sidebar);
     }
     public function update(Request $request,$id){
         $this->validate($request, [
@@ -128,7 +129,7 @@ class PostController extends Controller
            
             
         ];
-        return view($this->view.'create',$arrReturn);
+        return view($this->view.'create',$arrReturn)->with('sidebar', $this->sidebar);
     }
     public function store(Request $request){
         $this->validate($request, [
@@ -193,7 +194,7 @@ class PostController extends Controller
            
             
         ];
-        return view($this->view.'detail',$arrReturn);
+        return view($this->view.'detail',$arrReturn)->with('sidebar', $this->sidebar);
 
     }
     public function detailJson(Request $request,$id){

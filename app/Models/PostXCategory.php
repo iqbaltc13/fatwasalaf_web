@@ -23,7 +23,7 @@ class PostXCategory extends Model
         return $valDateTime;
     }
     public function post(){
-        return $this->belongsTo('App\Models\Post','post','id');
+        return $this->belongsTo('App\Models\Post','post_id','id');
     }
     public function category(){
         return $this->belongsTo('App\Models\Category','category_id','id');

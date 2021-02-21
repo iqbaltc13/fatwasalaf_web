@@ -44,7 +44,7 @@ Route::group(['middleware' => ['auth'] ], function() {
         Route::post('file', "Api\V1\UploadFileController@uploadFile")->name('upload_file');
     });
     Route::group(['prefix' => 'dashboard', 'namespace' => 'Dashboard','as'=>'dashboard.'], function() {
-        Route::group(['as'=>'post.'], function() {
+        Route::group(['prefix'=> 'post', 'as'=>'post.'], function() {
             Route::get('index','PostController@index')->name('index');
             Route::get('data','PostController@data')->name('data');
             Route::get('datatable','PostController@datatable')->name('datatable');
@@ -57,7 +57,15 @@ Route::group(['middleware' => ['auth'] ], function() {
             Route::get('detail/{id}','PostController@detail')->name('detail'); 
             Route::get('detail-json/{id}','PostController@detailJson')->name('detail-json');
         });
-        Route::group(['as'=>'category.'], function() {
+        Route::group(['prefix' => 'profile-management', 'namespace' => 'User', 'as'=>'profil.' ], function() {
+            Route::get('index','ProfileController@index')->name('index');
+            Route::get('edit','ProfileController@edit')->name('edit');
+            Route::post('update','ProfileController@update')->name('update');
+            Route::get('change-password','ProfileController@changePassword')->name('change-password');
+            Route::post('update-password','ProfileController@updatePassword')->name('edit-password');
+            
+        });
+        Route::group(['prefix'=> 'category','as'=>'category.'], function() {
             Route::get('index','CategoryController@index')->name('index');
             Route::get('data','CategoryController@data')->name('data');
             Route::get('datatable','CategoryController@datatable')->name('datatable');
@@ -126,14 +134,7 @@ Route::group(['middleware' => ['auth'] ], function() {
                 });
                 
             });
-            Route::group(['prefix' => 'profile-management', 'namespace' => 'User'], function() {
-                Route::get('index','ProfileController@index')->name('dashboard.profil.index');
-                Route::get('edit','ProfileController@edit')->name('dashboard.profil.edit');
-                Route::post('update','ProfileController@update')->name('dashboard.profil.update');
-                Route::get('change-password','ProfileController@changePassword')->name('dashboard.profil.change-password');
-                Route::post('update-password','ProfileController@updatePassword')->name('dashboard.profil.edit-password');
-                
-            });
+           
             Route::group(['prefix' => 'config', 'as' =>'dashboard.config.'], function () {
                 Route::get('log', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index')->name('log');
             });

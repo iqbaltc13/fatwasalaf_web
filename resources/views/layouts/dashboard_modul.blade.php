@@ -67,48 +67,34 @@
 						@endif
 					
 				</li>
-				{{-- <li>
+				<li>
 					
 					@if(!empty($sidebar) )
-						@if($sidebar == 'paket_tabungan')
-						<a href="{{route('dashboard.paket-tabungan.haji.index')}}" class="underline-success">
-							Paket Tabungan
+						@if($sidebar == 'post')
+						<a href="{{route('dashboard.post.index')}}" class="underline-success">
+							Postingan
 						</a>
 						@else
-						<a href="{{route('dashboard.paket-tabungan.haji.index')}}">
-							Paket Tabungan
+						<a href="{{route('dashboard.post.index')}}">
+							Postingan
 						</a>
 						@endif
 					@endif
 				
-				</li> --}}
-                <li >
-					@if(!empty($sidebar) )
-						@if($sidebar == 'pembayaran')
-							<a href="{{route('dashboard.master.pembayaran.index')}}" class="underline-success">
-								Pembayaran	
-							</a>
-							@else
-							<a href="{{route('dashboard.master.pembayaran.index')}}">
-								Pembayaran	
-							</a>
+				</li>
+			     <li >
+						@if(!empty($sidebar) )
+							@if($sidebar == 'category')
+								<a href="{{route('dashboard.category.index')}}" class="underline-success">
+									Kategori
+								</a>
+								@else
+								<a href="{{route('dashboard.category.index')}}">
+									Kategori
+								</a>
+							@endif
 						@endif
-					@endif
-				<li>
-                <li class="sc-has-submenu">
-					
-                    @if(!empty($sidebar) )
-						@if($sidebar == 'master')
-							<a href="{{route('dashboard.master.faq.index')}}" class="underline-success">
-								Master	
-							</a>
-							@else
-							<a href="{{route('dashboard.master.faq.index')}}">
-								Master	
-							</a>
-						@endif
-					@endif
-                </li>
+					<li>
                 {{-- <li >
 					<a href="{{route('dashboard.user.index')}}">
 						@if(!empty($sidebar) )

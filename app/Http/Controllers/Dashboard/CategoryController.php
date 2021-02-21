@@ -26,18 +26,18 @@ class CategoryController extends Controller
     {
         $this->route      ='dashboard.category.';
         $this->view       ='dashboard.category.';
-        $this->sidebar    ='master';
+        $this->sidebar    ='category';
     }
     public function index(){
         $datas = Category::with([
             'category_x_post',
             'category_x_post.post',
-        ])->orderBy('cresated_at', 'DESC');
+        ])->orderBy('created_at', 'DESC');
         $datas = $datas->get();
         $arrReturn=[
             'arrData' => $datas
         ];
-        return view($this->view.'index',$arrReturn);
+        return view($this->view.'index',$arrReturn)->with('sidebar', $this->sidebar);
     }
     public function data(Request $request){
         $datas = Category::with([
@@ -92,7 +92,11 @@ class CategoryController extends Controller
         ->with('success', 'Sukses mengedit kategori');
     }
     public function create(Request $request){
-        return view($this->view.'create',$arrReturn);
+        $arrReturn  = [
+        
+            
+        ];
+        return view($this->view.'create',$arrReturn)->with('sidebar', $this->sidebar);
     }
     public function store(Request $request){
         $this->validate($request, [
@@ -135,7 +139,7 @@ class CategoryController extends Controller
            
             
         ];
-        return view($this->view.'detail',$arrReturn);
+        return view($this->view.'detail',$arrReturn)->with('sidebar', $this->sidebar);
 
     }
     public function detailJson(Request $request,$id){

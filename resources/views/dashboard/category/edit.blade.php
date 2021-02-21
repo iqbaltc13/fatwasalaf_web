@@ -9,12 +9,12 @@
                         <span data-uk-icon="icon:home;ratio:1.4" class="uk-margin-medium-right"></span>
                     </div>
                     <h3 class="uk-card-title">
-                        Edit Master Pekerjaan
+                        Edit Kategori
                     </h3>
                     <div class="uk-width-auto@s" style="padding-left:350px;">
                         <div id="sc-dt-buttons">
                             <div class="dt-buttons">
-                                <a class="dt-button buttons-copy buttons-html5 sc-button" href="{{route('dashboard.master.pekerjaan.index')}}" ><span data-uk-icon="icon: menu"></span> <span>List Master Pekerjaan</span></a>
+                                <a class="dt-button buttons-copy buttons-html5 sc-button" href="{{route('dashboard.category.index')}}" ><span data-uk-icon="icon: menu"></span> <span>List Kategori</span></a>
                                 
                                 
                             </div>
@@ -33,10 +33,10 @@
                     @endforeach
                     
                 @endif
-                <form method="POST" id="form_advanced_validation" class="form-edit-pekerjaan" action="{{route('dashboard.master.pekerjaan.update',['id'=>$data->id])}}" enctype="multipart/form-data">
+                <form method="POST" id="form_advanced_validation" class="form-edit-category" action="{{route('dashboard.category.update',['id'=>$data->id])}}" enctype="multipart/form-data">
                     {!! csrf_field() !!}
                     <input type="hidden" name="_method" value="put" />
-                    @include('dashboard.master.pekerjaan.form_edit')
+                    @include('dashboard.category.form_edit')
                     <div class="uk-margin-top">
                         <button type="submit" class="sc-button sc-button-primary sc-button-large">Submit</button>
                     </div>

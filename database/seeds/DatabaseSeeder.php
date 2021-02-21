@@ -15,18 +15,8 @@ class DatabaseSeeder extends Seeder
         $this->call(RoleSeeder::class);
         $this->call(FileTypesSeeder::class);
         $this->call(ConfirmationTypeSeeder::class);
-        $this->call(MasterPekerjaanSeeder::class);
-        $this->call(MasterPendidikanSeeder::class);
-        $this->call(FaqSeeder::class);
-        $this->call(SyaratKetentuanSeeder::class);
-        $this->call(CaraMenabungSeeder::class);
-        $this->call(JenisLayananSeeder::class);
-        $this->call(JenisPembayaranSeeder::class);
-        $this->call(StatusTabunganHajiSeeder::class);
-        $this->call(StatusTabunganUmrahSeeder::class);
-        $this->call(StatusTabunganUmrahSeeder::class);
-        $this->call(PaketTabunganHajiSeeder::class);
-        $this->call(PaketTabunganUmrahSeeder::class);
+     
+        
         $this->call(NotifikasiGroupSeeder::class);
         $this->call(NotifikasiActionSeeder::class);
         $this->call(ProvinceSeeder::class);
