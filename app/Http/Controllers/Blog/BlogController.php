@@ -240,4 +240,46 @@ class BlogController extends Controller
         
 
     }
+
+    public function insertComment(Request $request){
+        $arrCreate=[
+            
+
+            'comment'             => $request->comment_content,
+            'name'                => $request->comment_name,
+            'post_id'             => $request->post_id,
+            
+
+           
+        ];
+        
+        $createComment=Comment::create($arrCreate);
+        return $this->success('Berhasil',$createComment);
+        
+
+    }
+
+    public function loadComment(Request $request){
+        
+        $comment = Comment::where('post_id',$request->post_id)->get();
+        $i=0;
+        foreach ($comment as $komen) {
+
+            $output = '
+ <div class="comment"><hr>
+                  <div class="comment-header d-flex justify-content-between">
+                    <div class="user d-flex align-items-center">
+                      
+                      <div class="title"><strong>'.$komen->name.'</strong><span class="date">'.$komen->created_at->format(' d M Y H.i').' WIB</span></div>
+                    </div>
+                  </div>
+                  <div class="comment-body">
+                    <p>'.$komen->comment.'</p>
+                  </div>
+                </div>
+ ';
+    echo $output;
+        }
+        
+    }
 }

@@ -1,5 +1,13 @@
 @extends('layouts.blog_templates')
 @section('content')
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+<base href="{{url('')}}/">
+
+ 
+ 
+
+
+
 <div class="container">
     <div class="row">
       <!-- Latest Posts -->
@@ -82,8 +90,9 @@
                   {{$k}}
                 </span></h3>
                 </header>
-                @foreach($arrData->comment as $komen)
-                <div class="comment">
+                
+                <div id="display_comment"></div>
+                {{-- <div class="comment">
                   <div class="comment-header d-flex justify-content-between">
                     <div class="user d-flex align-items-center">
                       <div class="image"><img src="{{url('/')}}/templates/bootstrap-blog-1-2-1/distribution/img/gallery-2.jpg" data-fancybox="gallery" class="image"><img src="{{url('/')}}/templates/bootstrap-blog-1-2-1/distribution/img/user.svg" alt="..." class="img-fluid rounded-circle"></div>
@@ -93,10 +102,27 @@
                   <div class="comment-body">
                     <p>{{$komen->comment}}</p>
                   </div>
-                </div>
-                @endforeach
+                </div> --}}
                 
-              <div class="add-comment">
+                <div class="container">
+                 <form method="POST" id="comment_form" enctype="multipart/form-data">
+                  {!! csrf_field() !!}
+                  <div class="form-group">
+                   <input type="text" name="comment_name" id="comment_name" class="form-control" placeholder="Nama" />
+                 </div>
+                 <div class="form-group">
+                   <textarea name="comment_content" id="comment_content" class="form-control" placeholder="Komentar" rows="5"></textarea>
+                 </div>
+                 <div class="form-group">
+                   <input type="hidden" name="post_id"  value="{{$arrData->id}}" />
+                   <input type="submit" name="submit" id="submit" class="btn btn-info" value="Kirim" />
+                 </div>
+               </form>
+               <span id="comment_message"></span>
+               
+
+             </div>
+              {{-- <div class="add-comment">
                 <header>
                   <h3 class="h6">Leave a reply</h3>
                 </header>
@@ -116,7 +142,7 @@
                     </div>
                   </div>
                 </form>
-              </div>
+              </div> --}}
             </div>
           </div>
         </div>
@@ -192,6 +218,57 @@
       </aside>
     </div>
   </div>
+
 @push('scripts')
 @endpush
+<script>
+  $(document).ready(function(){
+    var base_url = document.getElementsByTagName('base')[0].getAttribute('href');
+   $('#comment_form').on('submit', function(event){
+    event.preventDefault();
+    var form_data = $(this).serialize();
+    $.ajax({
+      url:base_url+ 'insert-comment',
+     method:"POST",
+     data:form_data,
+     dataType:"JSON",
+     success:function(data)
+     {
+      if(data.error != '')
+      {
+       $('#comment_form')[0].reset();
+       $('#comment_message').html(data.error);
+       $('#comment_id').val('0');
+       load_comment();
+     }
+   }
+ })
+  });
+
+   load_comment();
+
+   function load_comment()
+   {
+    $.ajax({
+     url:base_url+ 'load-comment',
+     method:"POST",
+     data: {
+        "_token": "{{ csrf_token() }}", 
+         post_id: {{$arrData->id}}     
+        },
+     success:function(data)
+     {
+      $('#display_comment').html(data);
+    }
+  })
+  }
+
+  $(document).on('click', '.reply', function(){
+    var comment_id = $(this).attr("id");
+    $('#comment_id').val(comment_id);
+    $('#comment_name').focus();
+  });
+
+});
+</script>
 @endsection
