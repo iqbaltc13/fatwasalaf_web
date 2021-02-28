@@ -72,7 +72,7 @@ class PostController extends Controller
            
         ]);
         $categories     = $categories->orderBy('created_at','DESC');
-     
+        $categories     = $categories->get();
         
 
         $arrReturn  = [
@@ -100,19 +100,20 @@ class PostController extends Controller
             'status'          =>1,
         ];
         $update = Post::where('id',$id)->update($arrUpdate);
+        $arrIdCategories=$request->categories;
         foreach ($arrIdCategories as $key => $idCategory) {
-            $getPostXCategory = PostXCategory::with([])
-                                ->where('post_id' , $id)
-                                ->where('category_id', $idCategory)
-                                ->first();
-            if($getPostXCategory){
-                continue;
-            }
+            // $getPostXCategory = PostXCategory::with([])
+            //                     ->where('post_id' , $id)
+            //                     ->where('category_id', $idCategory)
+            //                     ->first();
+            // if($getPostXCategory){
+            //     continue;
+            // }
             $arrCreatePostXCategory=[
                 'post_id'    => $id,
                 'category_id'  => $idCategory,
             ];
-            PostXCategory::create($arrCreatePostXCategory);
+            PostXCategory::where('post_id',$id)->update($arrCreatePostXCategory);
             $arrCreatePostXCategory=[];
             $getPostXCategory = NULL;
         }           
@@ -124,6 +125,7 @@ class PostController extends Controller
            
         ]);
         $categories     = $categories->orderBy('created_at','DESC');
+        $categories     = $categories->get();
         $arrReturn  = [
             'arrDataCategories'      => $categories,
            

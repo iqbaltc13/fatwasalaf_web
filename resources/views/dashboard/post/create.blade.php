@@ -49,27 +49,35 @@
 @push('scripts')
 <script>
 </script>
-<script>
-flatpickr(".flatpickr-input");
-let current = new Date(); //'Mar 11 2015' current.getTime() = 1426060964567
-let followingDay = new Date(current.getTime() + 86400000); // + 1
-flatpickr(".periode-banner",{
-    mode: "range",
-    dateFormat: "Y-m-d",
-    //defaultDate: [current, followingDay],
-    onChange: function(selectedDates, dateStr, instance) {
-       
-    },
-    onClose: function(selectedDates, dateStr, instance){
-      
-       let arrDate=dateStr.split(" to ");
-       let start = document.getElementById("start_date_banner");
-       start.value = arrDate[0];
-       let end = document.getElementById("end_date_banner");
-       end.value = arrDate[1];
+<script src="{{url('/')}}/JS/summernote/summernote-lite.js"></script>
 
-    }
+<script src="{{url('/')}}/JS/ckeditor/ckeditor.js"></script>
+
+<script>
+$(document).ready(function () {
+    CKEDITOR.replace( 'article' );
+    flatpickr(".flatpickr-input");
+    let current = new Date(); //'Mar 11 2015' current.getTime() = 1426060964567
+    let followingDay = new Date(current.getTime() + 86400000); // + 1
+    flatpickr(".periode-banner",{
+        mode: "range",
+        dateFormat: "Y-m-d",
+        //defaultDate: [current, followingDay],
+        onChange: function(selectedDates, dateStr, instance) {
+        
+        },
+        onClose: function(selectedDates, dateStr, instance){
+        
+        let arrDate=dateStr.split(" to ");
+        let start = document.getElementById("start_date_banner");
+        start.value = arrDate[0];
+        let end = document.getElementById("end_date_banner");
+        end.value = arrDate[1];
+
+        }
+    });
 });
+
 new Vue({
             el: '#vue-form-element',
             data:{
