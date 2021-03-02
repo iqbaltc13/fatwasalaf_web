@@ -113,7 +113,7 @@
     </div>
   </section>
   <!-- Newsletter Section-->
-  <section class="newsletter no-padding-top">    
+  {{-- <section class="newsletter no-padding-top">    
     <div class="container">
       <div class="row">
         <div class="col-md-6">
@@ -132,7 +132,7 @@
         </div>
       </div>
     </div>
-  </section>
+  </section> --}}
   <!-- Gallery Section-->
   <section class="gallery no-padding">    
     <div class="row">

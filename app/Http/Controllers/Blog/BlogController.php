@@ -282,4 +282,44 @@ class BlogController extends Controller
         }
         
     }
+
+
+    public function cariPost(Request $request){
+
+
+        return redirect()->route('blog.cari-data',['kunci'=>$request['kunci']]);
+    }
+
+    public function cariData($kunci){
+         $datas = Post::with([
+            'post_x_category',
+            'post_x_category.category',
+            'comment'
+            ]);
+        $latest = $datas->orderBy('created_at', 'DESC')->take(3)->get();
+        // dd($latest);
+        $datas =$datas->where('title', 'like', "%{$kunci}%")->paginate(4);
+        
+        // $datas = $datas->get();
+        $dataCategories = Category::with([
+            'category_x_post',
+        
+        ]);
+    
+
+        $dataCategories = $dataCategories->get();
+
+        // dd($dataCategories);
+
+        $arrReturn  = [
+            'arrData' => $datas,
+            'arrDataCategory' =>$dataCategories,
+            'navbar' => 'index',
+            'latest' => $latest
+            
+        ];
+
+        return view($this->view.'blog',$arrReturn)->with('sidebar', $this->sidebar);
+    
+    }
 }

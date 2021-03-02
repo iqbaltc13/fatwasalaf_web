@@ -34,6 +34,8 @@ Route::group([ 'namespace' => 'Blog', 'as'=>'blog.'], function () {
     Route::get('index', "BlogController@index")->name('index');
     Route::get('index-blog', "BlogController@indexBlog")->name('blog');
     Route::get('post/{id}', "BlogController@detail")->name('post');
+    Route::get('/cari','BlogController@cariPost')->name('cari-post');
+    Route::get('/cari/{kunci}','BlogController@cariData')->name('cari-data');
 
     Route::post('insert-comment', "BlogController@insertComment")->name('insert-comment');
     Route::post('load-comment', "BlogController@loadComment")->name('load-comment');
